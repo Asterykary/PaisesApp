@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "paisesApp"
+    }
+  },
+  "defaultProject": "paisesApp",
+  "cli": {
+    "analytics": "0c8a3bdf-e0a9-4ed7-b3d4-8ed3b0606498"
+  }
 }
