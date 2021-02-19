@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PaisService } from '../../services/pais.service';
 import { Country } from '../../interfaces/pais.interface';
 
@@ -6,28 +6,33 @@ import { Country } from '../../interfaces/pais.interface';
   selector: 'app-por-pais',
   templateUrl: './por-pais.component.html',
   styles: [
+    `
+      li {
+        cursor:pointer;
+      }
+    `
   ]
 })
-export class PorPaisComponent implements OnInit {
+export class PorPaisComponent {
 
   termino: string = '';
   hayError: boolean = false;
   paises: Country[] = [];
+  paisesSugeridos: Country[] = [];
+
+  //Mostrar u ocultar la sugerencia
+  mostrarSugerencia: boolean = false;
 
   constructor(private paisService: PaisService) { }
 
-  ngOnInit(): void {
-  }
-
   buscar(termino: string){
+    this.mostrarSugerencia = false;
     this.hayError = false;
-
     this.termino = termino;
 
     this.paisService.buscarPais(this.termino)
     .subscribe((paises) => {
       this.paises = paises;
-      console.log(paises);
     }, (err) =>{
       this.hayError = true;
       this.paises = [];
@@ -36,6 +41,15 @@ export class PorPaisComponent implements OnInit {
 
   sugerencias(termino: string){
     this.hayError = false;
+    this.mostrarSugerencia = true;
+    this.termino = termino;
+
+    this.paisService.buscarPais(termino).subscribe(paises => this.paisesSugeridos = paises.splice(0,5), (err) => this.paisesSugeridos = [])
+  }
+
+  buscarSugerido(termino: string){
+    this.buscar(termino);
+
   }
 
 }

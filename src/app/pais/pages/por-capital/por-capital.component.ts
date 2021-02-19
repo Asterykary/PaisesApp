@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Country } from '../../interfaces/pais.interface';
-import { PaisService } from '../../services/pais.service';
 import { CapitalService } from '../../services/capital.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { CapitalService } from '../../services/capital.service';
   styles: [
   ]
 })
-export class PorCapitalComponent implements OnInit {
+export class PorCapitalComponent{
 
   termino: string = '';
   hayError: boolean = false;
@@ -17,18 +16,13 @@ export class PorCapitalComponent implements OnInit {
 
   constructor(private capitalService: CapitalService) { }
 
-  ngOnInit(): void {
-  }
-
   buscar(termino: string){
     this.hayError = false;
-
     this.termino = termino;
 
     this.capitalService.buscarCapital(this.termino) // Servicio no va a hacer el mismo
     .subscribe((capitales) => {
       this.capitales = capitales;
-      console.log(capitales);
     }, (err) =>{
       this.hayError = true;
       this.capitales = [];
